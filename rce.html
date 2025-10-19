@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sử dụng React.createElement()</title>
+    <!-- Nhúng React CDN (bản development) -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .task {
+        margin: 30px 0;
+        padding: 15px;
+        border: 1px solid #ccc;
+      }
+      button {
+        padding: 8px 16px;
+        margin: 5px;
+        cursor: pointer;
+      }
+      .card {
+        border: 2px solid #333;
+        padding: 20px;
+        max-width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <script>
+      const Button = React.createElement(
+        "button",
+        {
+          onClick: () => alert("Bạn đã nhấn button!"),
+          style: {
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+          },
+        },
+        "Nhấn tôi"
+      );
+
+      const Card = React.createElement(
+        "div",
+        { className: "card" },
+        React.createElement("h2", null, "Thông tin"),
+        React.createElement("p", null, "Đây là một card đơn giản")
+      );
+
+      const products = [
+        { name: "Sản phẩm 1", price: 100000 },
+        { name: "Sản phẩm 2", price: 200000 },
+        { name: "Sản phẩm 3", price: 150000 },
+      ];
+
+      const List = products.map((product, index) => {
+        return React.createElement(
+          "li",
+          { key: index },
+          `${product.name} - ${product.price}đ`
+        );
+      });
+      const ListContent = React.createElement(
+        "div",
+        null,
+        React.createElement("h1", null, "Danh sách sản phẩm"),
+        React.createElement("ul", null, [...List])
+      );
+      const wrapper = React.createElement(
+        React.Fragment,
+        null,
+        Button,
+        Card,
+        ListContent
+      );
+      ReactDOM.createRoot(document.querySelector("#root")).render(wrapper);
+    </script>
+  </body>
+</html>

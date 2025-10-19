@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sử dụng JSX/Babel</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 40px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #root {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 600px;
+      }
+
+      button,
+      a {
+        background-color: #e2e8f0;
+        color: #334155;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        font-family: inherit;
+      }
+
+      button:hover,
+      a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      button:active,
+      a:active {
+        transform: translateY(0);
+      }
+
+      .btn-rounded {
+        border-radius: 20px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #663a8e 100%);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      .btn-bordered {
+        border: 2px solid #667eea;
+        background-color: transparent !important;
+        background-image: none !important;
+        color: #667eea;
+        box-shadow: none;
+      }
+
+      .btn-bordered:hover {
+        background-color: #667eea !important;
+        background-image: none !important;
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-bordered.btn-primary {
+        border-color: #764ba2;
+        color: #764ba2;
+      }
+
+      .btn-bordered.btn-primary:hover {
+        background-color: #764ba2 !important;
+        color: white;
+      }
+
+      .size-s {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .size-m {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .size-l {
+        padding: 14px 28px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const Button = ({
+        primary,
+        rounded,
+        bordered,
+        href,
+        size = "m",
+        children,
+        ...passProps
+      }) => {
+        const classNames = [];
+
+        if (primary) classNames.push("btn-primary");
+        if (rounded) classNames.push("btn-rounded");
+        if (bordered) classNames.push("btn-bordered");
+        if (size === "s") classNames.push("size-s");
+        if (size === "m") classNames.push("size-m");
+        if (size === "l") classNames.push("size-l");
+
+        const Tag = href ? "a" : "button";
+
+        return (
+          <Tag {...passProps} className={classNames.join(" ")} href={href}>
+            {children}
+          </Tag>
+        );
+      };
+
+      const wrapper = (
+        <>
+          <Button type="button">Button normal type="button"</Button>
+
+          <Button primary type="submit" rounded bordered>
+            Button primary type="submit" rounded bordered
+          </Button>
+
+          <Button rounded>Button rounded không props khác</Button>
+
+          <Button bordered>Button bordered không props khác</Button>
+
+          <Button href="https://google.com" target="_blank" primary>
+            Button là link href="https://google.com" target="_blank" primary
+          </Button>
+
+          <Button primary rounded bordered size="l">
+            Tất cả có children text phù hợp
+          </Button>
+        </>
+      );
+
+      ReactDOM.createRoot(document.querySelector("#root")).render(wrapper);
+    </script>
+  </body>
+</html>
